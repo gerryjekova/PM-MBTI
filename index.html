@@ -87,31 +87,31 @@
 </head>
 <body>
     <h1>Project Manager Personality Quiz</h1>
-    <p>Answer the 16 questions below to find your PM archetype and mentor match!</p>
+    <p>Answer the questions below to find your PM archetype and mentor match!</p>
 
     <form id="quizForm">
         <div class="question">
-            <h2>1. When launching a project, what’s your first instinct?</h2>
-            <label><input type="radio" name="q1" value="DTRF,STRE"> Map out every milestone and deadline.</label>
-            <label><input type="radio" name="q1" value="DTRC,DARC"> Rally the team and set clear roles fast.</label>
-            <label><input type="radio" name="q1" value="SARC,SARE"> Brainstorm the vision with the team.</label>
-            <label><input type="radio" name="q1" value="SAEC"> Sketch a loose plan and dive into action.</label>
+            <h2>1. When starting a project, what’s your instinctive first move?</h2>
+            <label><input type="radio" name="q1" value="DTRF,STRE"> Sketch the milestones, build the roadmap.</label>
+            <label><input type="radio" name="q1" value="SARC,SARE"> Gather everyone and make sure they feel heard.</label>
+            <label><input type="radio" name="q1" value="DTRC,DARC"> Rally the team and assign roles to get it moving.</label>
+            <label><input type="radio" name="q1" value="SAEC,SARE"> Visualize the big picture before getting lost in tasks.</label>
         </div>
 
         <div class="question">
-            <h2>2. How do you handle a chaotic team environment?</h2>
-            <label><input type="radio" name="q2" value="DTRF,STRE"> Impose order with processes and rules.</label>
-            <label><input type="radio" name="q2" value="DTRC"> Take charge and delegate decisively.</label>
-            <label><input type="radio" name="q2" value="SAEC"> Adapt and find creative workarounds.</label>
-            <label><input type="radio" name="q2" value="SARC"> Check in emotionally to realign everyone.</label>
+            <h2>2. In a team full of chaos and no structure, you...</h2>
+            <label><input type="radio" name="q2" value="STRE,DTRF"> Step in to design and enforce processes.</label>
+            <label><input type="radio" name="q2" value="SARC"> Try to understand what each person needs emotionally.</label>
+            <label><input type="radio" name="q2" value="DTRC"> Take over and delegate like a boss.</label>
+            <label><input type="radio" name="q2" value="SAEC"> Embrace the chaos and find new paths.</label>
         </div>
 
         <div class="question">
-            <h2>3. A team member misses a deadline. Your response?</h2>
-            <label><input type="radio" name="q3" value="DTRF"> Optimize their workflow with a new plan.</label>
-            <label><input type="radio" name="q3" value="DTRC,DARC"> Push them to catch up, no excuses.</label>
-            <label><input type="radio" name="q3" value="SARC,STRF"> Ask what’s wrong and adjust priorities.</label>
-            <label><input type="radio" name="q3" value="SAEC"> Encourage a fresh approach based on their vibe.</label>
+            <h2>3. Someone is lagging behind deadlines. You:</h2>
+            <label><input type="radio" name="q3" value="DTRF"> Pull them aside and create an optimized workflow.</label>
+            <label><input type="radio" name="q3" value="SARC"> Ask if they’re okay and what’s blocking them.</label>
+            <label><input type="radio" name="q3" value="DTRC,DARC"> Pressure them to get their act together.</label>
+            <label><input type="radio" name="q3" value="SAEC,STRF"> Help them reprioritize based on their energy.</label>
         </div>
 
         <div class="question">
@@ -225,6 +225,9 @@
         <h2>Your Results</h2>
         <p id="archetype"></p>
         <p id="description"></p>
+        <p id="strengths"></p>
+        <p id="gaps"></p>
+        <p id="growthTip"></p>
         <p id="mentor"></p>
     </div>
 
@@ -232,51 +235,75 @@
         const archetypes = {
             "DTRF": {
                 name: "The Strategist",
-                description: "A meticulous planner with a commanding presence. You live for timelines, scope control, and structured leadership. Chaos fears you.",
-                mentor: "Free Spirit (SAEC)",
-                mentorRationale: "Adds structure to creativity, helping you loosen up and adapt."
+                description: "Bold. Tactical. Relentless. You're the type who could run a war room *and* a wedding flawlessly. Your plans are bulletproof, your vision is sharp, and nobody misses a deadline on your watch. You excel at creating structured, strategic plans and leading with a clear, decisive vision, making you a boss-level planner and leader.",
+                strengths: "Strategic thinking, tactical execution, structured leadership, reliability in meeting deadlines.",
+                gaps: "Tendency to be overly rigid and controlling, which can alienate team members or stifle creativity.",
+                growthTip: "Loosen your grip. People aren’t Gantt charts. You need to balance your structured approach with flexibility and consider the human element more.",
+                mentor: "The Facilitator (SARC)",
+                mentorRationale: "The Facilitator can help you soften your edges and teach you team empathy, balancing your focus on processes with better interpersonal skills."
             },
             "SARC": {
                 name: "The Facilitator",
-                description: "The team’s emotional glue. You empower others, resolve conflicts, and thrive in collaborative chaos with a laid-back vibe.",
-                mentor: "Commander (DTRC)",
-                mentorRationale: "Teaches empathy to a decisive leader, balancing your nurturing style."
+                description: "Chill. Kind. Chaos Whisperer. You’re the heart of the team — emotionally intelligent, collaborative, and calm under pressure. You don’t *manage*, you *empower*. Your strength lies in coaching and enabling others, creating a supportive environment even in chaotic situations.",
+                strengths: "Emotional intelligence, collaboration, calmness under pressure, ability to empower teams.",
+                gaps: "Lack of focus on timelines and structure, which can lead to missed deadlines or disorganized projects.",
+                growthTip: "Deadlines exist. Use a calendar once in a while, Picasso. You need to incorporate more structured planning to ensure projects stay on track.",
+                mentor: "The Strategist (DTRF)",
+                mentorRationale: "The Strategist provides the necessary structure, sharpens your planning skills, and helps ground your collaborative approach with defined frameworks."
             },
             "DARC": {
                 name: "The Firefighter",
-                description: "Born for crises, you dive into chaos with gusto. Quick decisions and bold actions define your casual, high-energy leadership.",
-                mentor: "Guardian (STRF)",
-                mentorRationale: "Pushes planning over reaction, encouraging proactive habits."
+                description: "Fast. Fearless. Frenzied. You were *born* for launch week. You jump into problems headfirst and *love* solving messes. You run toward the fire with a to-do list, thriving in high-pressure, chaotic situations where quick action is needed.",
+                strengths: "Crisis management, fast thinking, ruthlessness in prioritization, ability to thrive in urgency.",
+                gaps: "Lack of structure and prevention strategies, which can lead to recurring issues or burnout.",
+                growthTip: "Don’t be allergic to process. Prevent the fires too, ok? You should develop proactive planning skills to complement your reactive strengths.",
+                mentor: "The Guardian (STRF)",
+                mentorRationale: "The Guardian teaches planning, consistency, and breathing room, helping you prevent fires instead of just fighting them."
             },
             "STRF": {
                 name: "The Guardian",
-                description: "The steady rock of any team. You protect scope, mitigate risks, and communicate formally to ensure stability.",
-                mentor: "Visionary (SARE)",
-                mentorRationale: "Grounds big ideas with process, fostering adaptability."
+                description: "Safe. Solid. Reliable. You’re the insurance policy every chaotic team needs. Structured, risk-aware, predictable, and trusted by execs, you protect the scope and plan for every possible risk, ensuring stability and consistency.",
+                strengths: "Reliability, risk awareness, predictability, trust from stakeholders, strong documentation and planning.",
+                gaps: "Over-caution can stifle innovation or adaptability; difficulty letting go of control.",
+                growthTip: "Risk isn’t evil. Learn to play a little. You need to embrace some level of flexibility and risk-taking to avoid becoming too rigid.",
+                mentor: "The Visionary (SARE)",
+                mentorRationale: "The Visionary inspires you to break rules, think bigger, and take calculated risks, pushing you out of your comfort zone."
             },
             "STRE": {
                 name: "The Bureaucrat",
-                description: "A process maestro. You optimize workflows, enforce structure, and stick to traditional methods with formal flair.",
-                mentor: "Free Spirit (SAEC)",
-                mentorRationale: "Imposes rigor but may clash; brings modern experimentation."
+                description: "Methodical. Traditional. Detailed. You’ve got process for the process. Spreadsheets bow before you. Stability is your comfort zone. You are a classic old-school PM, excelling at traditional methodologies like Waterfall, with a focus on efficiency and order.",
+                strengths: "Methodical planning, detail orientation, process efficiency, stability.",
+                gaps: "Resistance to modern, agile approaches and lack of creativity or adaptability in fast-changing environments.",
+                growthTip: "The world has changed. Stop trying to Waterfall Slack. You need to embrace newer methodologies and fresh thinking to stay relevant.",
+                mentor: "The Free Spirit (SAEC)",
+                mentorRationale: "The Free Spirit brings spontaneity, creativity, and experimentation, encouraging you to adapt and modernize."
             },
             "SAEC": {
                 name: "The Free Spirit",
-                description: "A creative whirlwind. You adapt effortlessly, inspire with ideas, and lead with a casual, fun vibe.",
-                mentor: "Strategist (DTRF)",
-                mentorRationale: "Brings flexibility to rigid planning, anchoring your creativity."
+                description: "Creative. Spontaneous. Team Favorite. You’re the sunshine in the storm. Fast to adapt, open to everything, human-first always. You bring creativity and energy to projects but may lack structure or follow-through.",
+                strengths: "Creativity, adaptability, team morale boosting, openness to new ideas, human-centered approach.",
+                gaps: "Lack of structure, poor follow-through, and difficulty with detailed execution or deadlines.",
+                growthTip: "Not everything is vibes. Learn to land planes, not just take off. You need to develop planning and execution skills to complement your creative energy.",
+                mentor: "The Commander (DTRC)",
+                mentorRationale: "The Commander brings hard truth, execution focus, and decisive action, providing the discipline you need to land your ideas."
             },
             "DTRC": {
                 name: "The Commander",
-                description: "A results-driven force. You lead decisively, cut through noise, and communicate casually to keep things moving.",
-                mentor: "Facilitator (SARC)",
-                mentorRationale: "Adds execution to emotional focus, enhancing team connection."
+                description: "Decisive. Efficient. Results-Obsessed. You don’t waste time — you *own* it. You cut through noise, move fast, and make it happen with a casual yet authoritative style. Your focus is on results and efficiency.",
+                strengths: "Decisiveness, efficiency, results orientation, leadership confidence, speed in action.",
+                gaps: "Lack of empathy, which can alienate team members or overlook emotional dynamics.",
+                growthTip: "Empathy isn’t a blocker. People are part of the product. You need to balance your drive for results with a more empathetic approach to leadership.",
+                mentor: "The Facilitator (SARC)",
+                mentorRationale: "The Facilitator reminds you that people matter, teaching emotional intelligence and softer leadership skills."
             },
             "SARE": {
                 name: "The Visionary",
-                description: "A big-picture dreamer. You inspire with bold ideas and support your team, though details aren’t your forte.",
-                mentor: "Bureaucrat (STRE)",
-                mentorRationale: "Teaches execution, grounding your vision in practicality."
+                description: "Dreamy. Inspiring. Big-Picture-Thinker. You light fires in people. You dream big, pitch hard, and see the forest even if the trees are burning. Your strength is in inspiring others with big ideas, but you often lack detail or execution focus.",
+                strengths: "Inspiration, big-picture thinking, storytelling, values alignment, ability to motivate.",
+                gaps: "Lack of detail orientation, poor execution skills, and difficulty turning ideas into actionable plans.",
+                growthTip: "Execution matters. Learn to get stuff done, not just imagined. You need support and skills to bridge the gap between vision and reality.",
+                mentor: "The Firefighter (DARC)",
+                mentorRationale: "The Firefighter teaches ruthless action and fast thinking, helping you turn your dreams into reality."
             }
         };
 
@@ -284,7 +311,7 @@
             const form = document.getElementById("quizForm");
             const answers = Array.from(form.querySelectorAll("input[type='radio']:checked")).map(input => input.value.split(","));
 
-            // Flatten and count archetype occurrences
+            // Count archetype occurrences
             const score = {};
             answers.flat().forEach(archetype => {
                 score[archetype] = (score[archetype] || 0) + 1;
@@ -298,6 +325,9 @@
             resultDiv.style.display = "block";
             document.getElementById("archetype").textContent = `Your Archetype: ${archetypes[dominant].name}`;
             document.getElementById("description").textContent = `Description: ${archetypes[dominant].description}`;
+            document.getElementById("strengths").textContent = `Strengths: ${archetypes[dominant].strengths}`;
+            document.getElementById("gaps").textContent = `Gaps: ${archetypes[dominant].gaps}`;
+            document.getElementById("growthTip").textContent = `Growth Tip: ${archetypes[dominant].growthTip}`;
             document.getElementById("mentor").textContent = `Recommended Mentor: ${archetypes[dominant].mentor} - ${archetypes[dominant].mentorRationale}`;
         }
     </script>
