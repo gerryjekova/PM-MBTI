@@ -5,13 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Project Manager Personality Quiz</title>
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&display=swap" rel="stylesheet">
 </head>
 <body>
     <div class="container">
         <header>
             <h1 class="glow">Project Manager Personality Quiz</h1>
-            <p class="intro">Discover your PM archetype and find your perfect mentor match!</p>
+            <p class="intro">Unleash your PM superpower and find your mentor match!</p>
+            <div class="progress-bar">
+                <div id="progress" style="width: 0%;"></div>
+            </div>
         </header>
 
         <form id="quizForm">
@@ -146,8 +149,9 @@
             <button type="button" onclick="calculateResults()">Submit</button>
         </form>
 
-        <div id="results" style="display: none;">
-            <h2>Your Results</h2>
+        <div id="results" class="results-hidden">
+            <h2>Your PM Archetype</h2>
+            <div id="archetype-image" class="archetype-image"></div>
             <p id="archetype"></p>
             <p id="description"></p>
             <p id="strengths"></p>
@@ -166,7 +170,8 @@
                 gaps: "Can be overly rigid or controlling, potentially stifling creativity or team morale.",
                 growthTip: "Loosen up a bit—people aren’t Gantt charts. Blend your structure with flexibility and empathy.",
                 mentor: "The Facilitator (SARC)",
-                mentorRationale: "Helps soften your edges and teaches you to prioritize team dynamics."
+                mentorRationale: "Helps soften your edges and teaches you to prioritize team dynamics.",
+                image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
             },
             "SARC": {
                 name: "The Facilitator",
@@ -175,7 +180,8 @@
                 gaps: "May neglect timelines or structure, risking disorganization or missed goals.",
                 growthTip: "Deadlines aren’t optional. Add some structure—try a calendar, maestro!",
                 mentor: "The Strategist (DTRF)",
-                mentorRationale: "Brings planning rigor to ground your collaborative spirit."
+                mentorRationale: "Brings planning rigor to ground your collaborative spirit.",
+                image: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
             },
             "DARC": {
                 name: "The Firefighter",
@@ -184,7 +190,8 @@
                 gaps: "Weak on prevention and structure, which can lead to burnout or recurring crises.",
                 growthTip: "Prevent fires, don’t just fight them. Build some proactive habits.",
                 mentor: "The Guardian (STRF)",
-                mentorRationale: "Teaches consistency and planning to balance your reactivity."
+                mentorRationale: "Teaches consistency and planning to balance your reactivity.",
+                image: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
             },
             "STRF": {
                 name: "The Guardian",
@@ -193,7 +200,8 @@
                 gaps: "Over-caution can hinder innovation or adaptability; control can be hard to release.",
                 growthTip: "Take a calculated risk now and then—step out of the safety zone.",
                 mentor: "The Visionary (SARE)",
-                mentorRationale: "Pushes you to dream bigger and embrace bold moves."
+                mentorRationale: "Pushes you to dream bigger and embrace bold moves.",
+                image: "https://images.unsplash.com/photo-1503551723145-6c0407421453?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
             },
             "STRE": {
                 name: "The Bureaucrat",
@@ -202,7 +210,8 @@
                 gaps: "Resistance to agile methods or creativity can leave you stuck in the past.",
                 growthTip: "Modernize a bit—Slack isn’t for Waterfall. Embrace adaptability.",
                 mentor: "The Free Spirit (SAEC)",
-                mentorRationale: "Injects creativity and spontaneity into your toolkit."
+                mentorRationale: "Injects creativity and spontaneity into your toolkit.",
+                image: "https://images.unsplash.com/photo-1516321310764-8d9c912efdcb?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
             },
             "SAEC": {
                 name: "The Free Spirit",
@@ -211,7 +220,8 @@
                 gaps: "Poor follow-through and structure can derail execution or deadlines.",
                 growthTip: "Land the plane, not just take off. Add some discipline to your brilliance.",
                 mentor: "The Commander (DTRC)",
-                mentorRationale: "Offers execution focus and decisiveness to ground you."
+                mentorRationale: "Offers execution focus and decisiveness to ground you.",
+                image: "https://images.unsplash.com/photo-1516321497487-e288fb19713f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
             },
             "DTRC": {
                 name: "The Commander",
@@ -220,7 +230,8 @@
                 gaps: "Lack of empathy can disconnect you from your team’s needs.",
                 growthTip: "People matter too—blend empathy into your results-driven style.",
                 mentor: "The Facilitator (SARC)",
-                mentorRationale: "Teaches softer skills to balance your edge."
+                mentorRationale: "Teaches softer skills to balance your edge.",
+                image: "https://images.unsplash.com/photo-1539635278303-d4002c07eae3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
             },
             "SARE": {
                 name: "The Visionary",
@@ -229,13 +240,29 @@
                 gaps: "Weak on execution and details, leaving ideas unrealized.",
                 growthTip: "Turn dreams into plans—execution is your next frontier.",
                 mentor: "The Firefighter (DARC)",
-                mentorRationale: "Brings fast action to make your visions real."
+                mentorRationale: "Brings fast action to make your visions real.",
+                image: "https://images.unsplash.com/photo-1444703686981-a3abbc4d4fe3?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
             }
         };
+
+        // Update progress bar
+        document.querySelectorAll('input[type="radio"]').forEach(input => {
+            input.addEventListener('change', () => {
+                const answered = document.querySelectorAll('input[type="radio"]:checked').length;
+                const totalQuestions = 16;
+                const progress = (answered / totalQuestions) * 100;
+                document.getElementById('progress').style.width = `${progress}%`;
+            });
+        });
 
         function calculateResults() {
             const form = document.getElementById("quizForm");
             const answers = Array.from(form.querySelectorAll("input[type='radio']:checked")).map(input => input.value.split(","));
+
+            if (answers.length < 16) {
+                alert("Please answer all questions to see your PM archetype!");
+                return;
+            }
 
             // Count archetype occurrences
             const score = {};
@@ -248,7 +275,12 @@
 
             // Display results
             const resultDiv = document.getElementById("results");
-            resultDiv.style.display = "block";
+            resultDiv.classList.remove("results-hidden");
+            resultDiv.classList.add("results-visible");
+
+            const imageDiv = document.getElementById("archetype-image");
+            imageDiv.style.backgroundImage = `url(${archetypes[dominant].image})`;
+
             document.getElementById("archetype").textContent = `Your Archetype: ${archetypes[dominant].name}`;
             document.getElementById("description").textContent = `Description: ${archetypes[dominant].description}`;
             document.getElementById("strengths").textContent = `Strengths: ${archetypes[dominant].strengths}`;
