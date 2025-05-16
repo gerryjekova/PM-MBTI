@@ -10,11 +10,11 @@
 <body>
     <div class="container">
         <header>
-            <h1 class="glow">Project Manager Personality Quiz</h1>
-            <p class="intro">Unleash your PM superpower and find your mentor match!</p>
             <div class="progress-bar">
                 <div id="progress" style="width: 0%;"></div>
             </div>
+            <h1 class="glow">Project Manager Personality Quiz</h1>
+            <p class="intro">Unleash your PM superpower and find your mentor match!</p>
         </header>
 
         <form id="quizForm">
@@ -148,8 +148,11 @@
 
             <button type="button" onclick="calculateResults()">Submit</button>
         </form>
+    </div>
 
-        <div id="results" class="results-hidden">
+    <div id="resultsModal" class="modal">
+        <div class="modal-content">
+            <span class="close">×</span>
             <h2>Your PM Archetype</h2>
             <div id="archetype-image" class="archetype-image"></div>
             <p id="archetype"></p>
@@ -158,6 +161,15 @@
             <p id="gaps"></p>
             <p id="growthTip"></p>
             <p id="mentor"></p>
+            <form id="userSubmissionForm" action="https://your-google-form-endpoint" method="POST">
+                <h3>Save Your Results</h3>
+                <label for="userName">Name:</label>
+                <input type="text" id="userName" name="name" required>
+                <label for="userEmail">Email:</label>
+                <input type="email" id="userEmail" name="email" required>
+                <input type="hidden" id="userArchetype" name="archetype">
+                <button type="submit">Submit</button>
+            </form>
         </div>
     </div>
 
@@ -273,10 +285,9 @@
             // Determine dominant archetype
             const dominant = Object.keys(score).reduce((a, b) => score[a] > score[b] ? a : b);
 
-            // Display results
-            const resultDiv = document.getElementById("results");
-            resultDiv.classList.remove("results-hidden");
-            resultDiv.classList.add("results-visible");
+            // Display results in modal
+            const modal = document.getElementById("resultsModal");
+            modal.style.display = "flex";
 
             const imageDiv = document.getElementById("archetype-image");
             imageDiv.style.backgroundImage = `url(${archetypes[dominant].image})`;
@@ -287,7 +298,27 @@
             document.getElementById("gaps").textContent = `Gaps: ${archetypes[dominant].gaps}`;
             document.getElementById("growthTip").textContent = `Growth Tip: ${archetypes[dominant].growthTip}`;
             document.getElementById("mentor").textContent = `Recommended Mentor: ${archetypes[dominant].mentor} - ${archetypes[dominant].mentorRationale}`;
+            document.getElementById("userArchetype").value = archetypes[dominant].name;
         }
+
+        // Modal close functionality
+        document.querySelector(".close").addEventListener("click", () => {
+            document.getElementById("resultsModal").style.display = "none";
+        });
+
+        // Close modal when clicking outside
+        window.addEventListener("click", (event) => {
+            if (event.target === document.getElementById("resultsModal")) {
+                document.getElementById("resultsModal").style.display = "none";
+            }
+        });
+
+        // Form submission (client-side placeholder)
+        document.getElementById("userSubmissionForm").addEventListener("submit", (e) => {
+            e.preventDefault();
+            alert("Form submitted! (Configure server-side endpoint for actual data storage)");
+            // Example: Send data to Google Forms or Sheets via API (requires setup)
+        });
     </script>
 </body>
 </html>
