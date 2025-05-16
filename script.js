@@ -7,7 +7,7 @@ const archetypes = {
         growthTip: "Loosen up a bit—people aren't Gantt charts. Blend your structure with flexibility and empathy.",
         mentor: "The Facilitator (SARC)",
         mentorRationale: "Helps soften your edges and teaches you to prioritize team dynamics.",
-        image: "/pm-quiz-assets/strategist.png"
+        image: "pm-quiz-assets/strategist.png"
     },
     "SARC": {
         name: "The Facilitator",
@@ -17,7 +17,7 @@ const archetypes = {
         growthTip: "Deadlines aren't optional. Add some structure—try a calendar, maestro!",
         mentor: "The Strategist (DTRF)",
         mentorRationale: "Brings planning rigor to ground your collaborative spirit.",
-        image: "/pm-quiz-assets/the-facillitator.png"
+        image: "pm-quiz-assets/the-facillitator.png"
     },
     "DARC": {
         name: "The Firefighter",
@@ -27,7 +27,7 @@ const archetypes = {
         growthTip: "Prevent fires, don't just fight them. Build some proactive habits.",
         mentor: "The Guardian (STRF)",
         mentorRationale: "Teaches consistency and planning to balance your reactivity.",
-        image: "/pm-quiz-assets/firefighter.png"
+        image: "pm-quiz-assets/firefighter.png"
     },
     "STRF": {
         name: "The Guardian",
@@ -37,7 +37,7 @@ const archetypes = {
         growthTip: "Take a calculated risk now and then—step out of the safety zone.",
         mentor: "The Visionary (SARE)",
         mentorRationale: "Pushes you to dream bigger and embrace bold moves.",
-        image: "/pm-quiz-assets/theguardian.png"
+        image: "pm-quiz-assets/theguardian.png"
     },
     "STRE": {
         name: "The Bureaucrat",
@@ -47,7 +47,7 @@ const archetypes = {
         growthTip: "Modernize a bit—Slack isn't for Waterfall. Embrace adaptability.",
         mentor: "The Free Spirit (SAEC)",
         mentorRationale: "Injects creativity and spontaneity into your toolkit.",
-        image: "/pm-quiz-assets/bureaucrat.png"
+        image: "pm-quiz-assets/bureaucrat.png"
     },
     "SAEC": {
         name: "The Free Spirit",
@@ -57,7 +57,7 @@ const archetypes = {
         growthTip: "Land the plane, not just take off. Add some discipline to your brilliance.",
         mentor: "The Commander (DTRC)",
         mentorRationale: "Offers execution focus and decisiveness to ground you.",
-        image: "/pm-quiz-assets/free-spirit.png"
+        image: "pm-quiz-assets/free-spirit.png"
     },
     "DTRC": {
         name: "The Commander",
@@ -67,7 +67,7 @@ const archetypes = {
         growthTip: "People matter too—blend empathy into your results-driven style.",
         mentor: "The Facilitator (SARC)",
         mentorRationale: "Teaches softer skills to balance your edge.",
-        image: "/pm-quiz-assets/commander.png"
+        image: "pm-quiz-assets/commander.png"
     },
     "SARE": {
         name: "The Visionary",
@@ -77,7 +77,7 @@ const archetypes = {
         growthTip: "Turn dreams into plans—execution is your next frontier.",
         mentor: "The Firefighter (DARC)",
         mentorRationale: "Brings fast action to make your visions real.",
-        image: "/pm-quiz-assets/visionary.png"
+        image: "pm-quiz-assets/visionary.png"
     }
 };
 
