@@ -133,7 +133,7 @@ label {
     display: flex;
     align-items: center;
     font-size: 1.1rem;
-    color: #263238;
+    color: #ffffff;
     margin: 12px 0;
     padding: 12px;
     border-radius: 10px;
@@ -142,10 +142,11 @@ label {
     transition: background 0.2s ease, transform 0.2s ease;
     cursor: pointer;
     background-color: #78d4ff;
+    animation: pulseText 3s ease-in-out infinite;
 }
 
 label:hover {
-    background: rgba(200, 255, 0, 0.719);
+    background: rgba(229, 255, 135, 0.918);
     transform: scale(1.02);
     border-width: 1px solid;
 }
@@ -302,6 +303,16 @@ button:hover {
     text-align: left;
 }
 
+label[type="question"] {
+    border: transparent;
+    border-style: transparent;
+    background-color: transparent;
+    animation: pulseForm 2s ease-in-out infinite;
+    transform: translateY(-0px);
+
+}
+
+
 #userSubmissionForm input[type="text"],
 #userSubmissionForm input[type="email"] {
     width: 100%;
@@ -314,6 +325,12 @@ button:hover {
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
+h3 {
+color: white; 
+animation: pulseForm 3s ease-in-out infinite;
+text-indent: 3px solid rgb(0, 0, 0);
+}
+
 #userSubmissionForm input[type="text"]:focus,
 #userSubmissionForm input[type="email"]:focus {
     border-color: #ff52a8;
@@ -321,7 +338,7 @@ button:hover {
     outline: none;
 }
 
-#userSubmissionForm button[type="submit"] {
+#userSubmissionForm button {
     margin: 15px auto 0;
     padding: 10px 25px;
     font-size: 1.1rem;
@@ -335,6 +352,11 @@ button:hover {
 @keyframes pulseText {
     0%, 100% { color:  #6200ff ; }
     50% { color:  #506aff ;}
+}
+
+@keyframes pulseForm {
+    0%, 100% { color:  #fbff00 }
+    50% { color:  #ffb547 ;}
 }
 
 

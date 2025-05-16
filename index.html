@@ -145,7 +145,7 @@
                 <label><input type="radio" name="q16" value="SARC,STRF"> Guidance on personal growth.</label>
                 <label><input type="radio" name="q16" value="SAEC,SARE"> Freedom to explore my path.</label>
             </div>
-             <button type="submit" onclick="calculateResults()">Submit</button>
+              <button type="button" onclick="calculateResults()">Submit</button>
         </form>
     </div>
 
@@ -162,10 +162,10 @@
             <p id="mentor"></p>
               <form id="userSubmissionForm" action="https://send.pageclip.co/VafGLms8Q2it3UZm1NR6EVVISuDUKXgC" class="pageclip-form" method="post">
                 <h3>Save Your Results</h3>
-                <label for="userName">Name:</label>
-                  <input type="text" id="userName" name="name" value="tvoita mama">
-                <label for="userEmail">Email:</label>
-                 <input type="email" name="email" value="peshomaimunski@example.com" id="userEmail" required>
+                <label type="question" for="userName">Name:</label>
+                  <input type="text" id="userName" name="name" placeholder="tvoita mama">
+                <label type="question" for="userEmail">Email:</label>
+                 <input type="email" name="email" placeholder="peshomaimunski@example.com" id="userEmail" required>
                 <input type="hidden" id="userArchetype" name="archetype">
                 <button type="submit">Submit</button>
   <!-- Replace these inputs with your own. Make sure they have a "name" attribute! -->
