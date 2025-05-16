@@ -147,8 +147,7 @@ label {
 label:hover {
     background: rgba(200, 255, 0, 0.719);
     transform: scale(1.02);
-    border-width: 1px solid);
-    border-style: double;
+    border-width: 1px solid;
 }
 
 input[type="radio"] {
