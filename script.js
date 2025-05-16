@@ -121,7 +121,7 @@ const archetypes = {
             document.getElementById("strengths").textContent = `Strengths: ${archetypes[dominant].strengths}`;
             document.getElementById("gaps").textContent = `Gaps: ${archetypes[dominant].gaps}`;
             document.getElementById("growthTip").textContent = `Growth Tip: ${archetypes[dominant].growthTip}`;
-            document.getElementById("mentor").textContent = `Recommended Mentor: ${archetypes[dominant].mentor} - ${archetypes[dominant].mentorRationale}`;
+           // document.getElementById("mentor").textContent = `Recommended Mentor: ${archetypes[dominant].mentor} - ${archetypes[dominant].mentorRationale}`;    <- please incorporate this but only to get shown in the form as a hidden field please 
             document.getElementById("userArchetype").value = archetypes[dominant].name;
         }
 
