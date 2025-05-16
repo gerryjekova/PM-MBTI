@@ -1,309 +1,235 @@
-<script type="text/javascript">
-        var gk_isXlsx = false;
-        var gk_xlsxFileLookup = {};
-        var gk_fileData = {};
-        function filledCell(cell) {
-          return cell !== '' && cell != null;
-        }
-        function loadFileData(filename) {
-        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
-            try {
-                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
-                var firstSheetName = workbook.SheetNames[0];
-                var worksheet = workbook.Sheets[firstSheetName];
-
-                // Convert sheet to JSON to filter blank rows
-                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
-                // Filter out blank rows (rows where all cells are empty, null, or undefined)
-                var filteredData = jsonData.filter(row => row.some(filledCell));
-
-                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
-                var headerRowIndex = filteredData.findIndex((row, index) =>
-                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
-                );
-                // Fallback
-                if (headerRowIndex === -1 || headerRowIndex > 25) {
-                  headerRowIndex = 0;
-                }
-
-                // Convert filtered JSON back to CSV
-                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
-                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
-                return csv;
-            } catch (e) {
-                console.error(e);
-                return "";
-            }
-        }
-        return gk_fileData[filename] || "";
-        }
-        </script><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PM Personality Quiz</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 20px auto;
-            padding: 20px;
-            background-color: #f4f4f4;
-        }
-        h1, h2 {
-            color: #333;
-        }
-        .question {
-            margin-bottom: 20px;
-            padding: 15px;
-            background: white;
-            border-radius: 8px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-        }
-        label {
-            display: block;
-            margin: 10px 0;
-        }
-        button {
-            padding: 10px 20px;
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        #results {
-            margin-top: 20px;
-            padding: 15px;
-            background: #e9ecef;
-            border-radius: 8px;
-            display: none;
-        }
-    </style>
+    <title>Project Manager Personality Quiz</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <h1>Project Manager Personality Quiz</h1>
-    <p>Answer the questions below to find your PM archetype and mentor match!</p>
+    <div class="container">
+        <header>
+            <h1 class="glow">Project Manager Personality Quiz</h1>
+            <p class="intro">Discover your PM archetype and find your perfect mentor match!</p>
+        </header>
 
-    <form id="quizForm">
-        <div class="question">
-            <h2>1. When starting a project, what’s your instinctive first move?</h2>
-            <label><input type="radio" name="q1" value="DTRF,STRE"> Sketch the milestones, build the roadmap.</label>
-            <label><input type="radio" name="q1" value="SARC,SARE"> Gather everyone and make sure they feel heard.</label>
-            <label><input type="radio" name="q1" value="DTRC,DARC"> Rally the team and assign roles to get it moving.</label>
-            <label><input type="radio" name="q1" value="SAEC,SARE"> Visualize the big picture before getting lost in tasks.</label>
+        <form id="quizForm">
+            <div class="question">
+                <h2>1. When starting a project, what’s your instinctive first move?</h2>
+                <label><input type="radio" name="q1" value="DTRF,STRE"> Sketch the milestones, build the roadmap.</label>
+                <label><input type="radio" name="q1" value="SARC,SARE"> Gather everyone and make sure they feel heard.</label>
+                <label><input type="radio" name="q1" value="DTRC,DARC"> Rally the team and assign roles to get it moving.</label>
+                <label><input type="radio" name="q1" value="SAEC,SARE"> Visualize the big picture before getting lost in tasks.</label>
+            </div>
+
+            <div class="question">
+                <h2>2. In a team full of chaos and no structure, you...</h2>
+                <label><input type="radio" name="q2" value="STRE,DTRF"> Step in to design and enforce processes.</label>
+                <label><input type="radio" name="q2" value="SARC"> Try to understand what each person needs emotionally.</label>
+                <label><input type="radio" name="q2" value="DTRC"> Take over and delegate like a boss.</label>
+                <label><input type="radio" name="q2" value="SAEC"> Embrace the chaos and find new paths.</label>
+            </div>
+
+            <div class="question">
+                <h2>3. Someone is lagging behind deadlines. You:</h2>
+                <label><input type="radio" name="q3" value="DTRF"> Pull them aside and create an optimized workflow.</label>
+                <label><input type="radio" name="q3" value="SARC"> Ask if they’re okay and what’s blocking them.</label>
+                <label><input type="radio" name="q3" value="DTRC,DARC"> Pressure them to get their act together.</label>
+                <label><input type="radio" name="q3" value="SAEC,STRF"> Help them reprioritize based on their energy.</label>
+            </div>
+
+            <div class="question">
+                <h2>4. What’s your take on meetings?</h2>
+                <label><input type="radio" name="q4" value="DTRF,STRE"> Essential for alignment, but keep them tight.</label>
+                <label><input type="radio" name="q4" value="SARC,SARE"> A stage to inspire and connect.</label>
+                <label><input type="radio" name="q4" value="DTRC"> A quick huddle to execute fast.</label>
+                <label><input type="radio" name="q4" value="SAEC"> A chance to spark ideas, even if it’s messy.</label>
+            </div>
+
+            <div class="question">
+                <h2>5. Under pressure, what’s your superpower?</h2>
+                <label><input type="radio" name="q5" value="DTRF,STRE"> Keeping everything on track, no matter what.</label>
+                <label><input type="radio" name="q5" value="DARC"> Turning chaos into action instantly.</label>
+                <label><input type="radio" name="q5" value="SARC,STRF"> Staying calm and uplifting the team.</label>
+                <label><input type="radio" name="q5" value="SAEC,SARE"> Finding creative solutions on the fly.</label>
+            </div>
+
+            <div class="question">
+                <h2>6. What’s your kryptonite as a PM?</h2>
+                <label><input type="radio" name="q6" value="DTRF,STRE"> Overplanning and missing the human side.</label>
+                <label><input type="radio" name="q6" value="DTRC,DARC"> Pushing too hard and burning out others.</label>
+                <label><input type="radio" name="q6" value="SARC"> Taking on too much emotional baggage.</label>
+                <label><input type="radio" name="q6" value="SAEC,SARE"> Struggling to stick to a plan.</label>
+            </div>
+
+            <div class="question">
+                <h2>7. Your go-to project tool is…</h2>
+                <label><input type="radio" name="q7" value="DTRF,STRE"> A detailed Gantt chart or task board.</label>
+                <label><input type="radio" name="q7" value="DTRC,DARC"> A quick chat app for fast updates.</label>
+                <label><input type="radio" name="q7" value="SARC,SARE"> A whiteboard for team brainstorming.</label>
+                <label><input type="radio" name="q7" value="SAEC"> Sticky notes and a playlist for vibes.</label>
+            </div>
+
+            <div class="question">
+                <h2>8. How would you describe your leadership vibe?</h2>
+                <label><input type="radio" name="q8" value="DTRF"> Calculated and strategic.</label>
+                <label><input type="radio" name="q8" value="DTRC"> Bold and no-nonsense.</label>
+                <label><input type="radio" name="q8" value="SARC"> Nurturing and team-first.</label>
+                <label><input type="radio" name="q8" value="SAEC,SARE"> Free-flowing and adaptive.</label>
+            </div>
+
+            <div class="question">
+                <h2>9. Your dream project team…</h2>
+                <label><input type="radio" name="q9" value="DTRF,STRE"> Follows clear roles and routines.</label>
+                <label><input type="radio" name="q9" value="DTRC,DARC"> Moves fast and tackles chaos head-on.</label>
+                <label><input type="radio" name="q9" value="SARC,STRF"> Feels safe to share and collaborate.</label>
+                <label><input type="radio" name="q9" value="SAEC,SARE"> Experiments and pushes boundaries.</label>
+            </div>
+
+            <div class="question">
+                <h2>10. What gets your PM juices flowing?</h2>
+                <label><input type="radio" name="q10" value="DTRF,STRE"> Cracking tough logistical puzzles.</label>
+                <label><input type="radio" name="q10" value="DARC"> Conquering high-stakes deadlines.</label>
+                <label><input type="radio" name="q10" value="SARC"> Seeing team members thrive.</label>
+                <label><input type="radio" name="q10" value="SAEC,SARE"> Exploring bold new ideas.</label>
+            </div>
+
+            <div class="question">
+                <h2>11. How do you bounce back from a project fail?</h2>
+                <label><input type="radio" name="q11" value="DTRF"> Analyze and tweak the system.</label>
+                <label><input type="radio" name="q11" value="DTRC,DARC"> Hit the ground running harder.</label>
+                <label><input type="radio" name="q11" value="SARC"> Support the team and regroup.</label>
+                <label><input type="radio" name="q11" value="SAEC,SARE"> Pivot with a fresh perspective.</label>
+            </div>
+
+            <div class="question">
+                <h2>12. Your work energy in three words:</h2>
+                <label><input type="radio" name="q12" value="DTRF,STRE"> Precise, focused, structured.</label>
+                <label><input type="radio" name="q12" value="DTRC,DARC"> Driven, intense, ambitious.</label>
+                <label><input type="radio" name="q12" value="SARC,STRF"> Warm, steady, empathetic.</label>
+                <label><input type="radio" name="q12" value="SAEC,SARE"> Curious, dynamic, open.</label>
+            </div>
+
+            <div class="question">
+                <h2>13. Which motto fits your PM style?</h2>
+                <label><input type="radio" name="q13" value="DTRF,STRE"> “Order drives results.”</label>
+                <label><input type="radio" name="q13" value="DTRC"> “Action beats hesitation.”</label>
+                <label><input type="radio" name="q13" value="SARC"> “People make projects.”</label>
+                <label><input type="radio" name="q13" value="SAEC,SARE"> “Innovation fuels progress.”</label>
+            </div>
+
+            <div class="question">
+                <h2>14. You’d ditch a gig if…</h2>
+                <label><input type="radio" name="q14" value="DTRF,STRE"> It’s a disorganized mess.</label>
+                <label><input type="radio" name="q14" value="DTRC,DARC"> There’s no challenge or growth.</label>
+                <label><input type="radio" name="q14" value="SARC,STRF"> The vibe is toxic or cold.</label>
+                <label><input type="radio" name="q14" value="SAEC,SARE"> It stifles your creativity.</label>
+            </div>
+
+            <div class="question">
+                <h2>15. Your role in a group project is…</h2>
+                <label><input type="radio" name="q15" value="DTRF"> The master planner.</label>
+                <label><input type="radio" name="q15" value="DARC"> The action driver.</label>
+                <label><input type="radio" name="q15" value="SARC"> The team harmonizer.</label>
+                <label><input type="radio" name="q15" value="SAEC,SARE"> The boundary pusher.</label>
+            </div>
+
+            <div class="question">
+                <h2>16. As a mentee, you’d ask for…</h2>
+                <label><input type="radio" name="q16" value="DTRF,STRE"> A proven system to follow.</label>
+                <label><input type="radio" name="q16" value="DTRC,DARC"> A push to excel under pressure.</label>
+                <label><input type="radio" name="q16" value="SARC,STRF"> Guidance on personal growth.</label>
+                <label><input type="radio" name="q16" value="SAEC,SARE"> Freedom to explore my path.</label>
+            </div>
+
+            <button type="button" onclick="calculateResults()">Submit</button>
+        </form>
+
+        <div id="results" style="display: none;">
+            <h2>Your Results</h2>
+            <p id="archetype"></p>
+            <p id="description"></p>
+            <p id="strengths"></p>
+            <p id="gaps"></p>
+            <p id="growthTip"></p>
+            <p id="mentor"></p>
         </div>
-
-        <div class="question">
-            <h2>2. In a team full of chaos and no structure, you...</h2>
-            <label><input type="radio" name="q2" value="STRE,DTRF"> Step in to design and enforce processes.</label>
-            <label><input type="radio" name="q2" value="SARC"> Try to understand what each person needs emotionally.</label>
-            <label><input type="radio" name="q2" value="DTRC"> Take over and delegate like a boss.</label>
-            <label><input type="radio" name="q2" value="SAEC"> Embrace the chaos and find new paths.</label>
-        </div>
-
-        <div class="question">
-            <h2>3. Someone is lagging behind deadlines. You:</h2>
-            <label><input type="radio" name="q3" value="DTRF"> Pull them aside and create an optimized workflow.</label>
-            <label><input type="radio" name="q3" value="SARC"> Ask if they’re okay and what’s blocking them.</label>
-            <label><input type="radio" name="q3" value="DTRC,DARC"> Pressure them to get their act together.</label>
-            <label><input type="radio" name="q3" value="SAEC,STRF"> Help them reprioritize based on their energy.</label>
-        </div>
-
-        <div class="question">
-            <h2>4. What’s your take on meetings?</h2>
-            <label><input type="radio" name="q4" value="DTRF,STRE"> Essential for alignment, but keep them tight.</label>
-            <label><input type="radio" name="q4" value="SARC,SARE"> A stage to inspire and connect.</label>
-            <label><input type="radio" name="q4" value="DTRC"> A quick huddle to execute fast.</label>
-            <label><input type="radio" name="q4" value="SAEC"> A chance to spark ideas, even if it’s messy.</label>
-        </div>
-
-        <div class="question">
-            <h2>5. Under pressure, what’s your superpower?</h2>
-            <label><input type="radio" name="q5" value="DTRF,STRE"> Keeping everything on track, no matter what.</label>
-            <label><input type="radio" name="q5" value="DARC"> Turning chaos into action instantly.</label>
-            <label><input type="radio" name="q5" value="SARC,STRF"> Staying calm and uplifting the team.</label>
-            <label><input type="radio" name="q5" value="SAEC,SARE"> Finding creative solutions on the fly.</label>
-        </div>
-
-        <div class="question">
-            <h2>6. What’s your kryptonite as a PM?</h2>
-            <label><input type="radio" name="q6" value="DTRF,STRE"> Overplanning and missing the human side.</label>
-            <label><input type="radio" name="q6" value="DTRC,DARC"> Pushing too hard and burning out others.</label>
-            <label><input type="radio" name="q6" value="SARC"> Taking on too much emotional baggage.</label>
-            <label><input type="radio" name="q6" value="SAEC,SARE"> Struggling to stick to a plan.</label>
-        </div>
-
-        <div class="question">
-            <h2>7. Your go-to project tool is…</h2>
-            <label><input type="radio" name="q7" value="DTRF,STRE"> A detailed Gantt chart or task board.</label>
-            <label><input type="radio" name="q7" value="DTRC,DARC"> A quick chat app for fast updates.</label>
-            <label><input type="radio" name="q7" value="SARC,SARE"> A whiteboard for team brainstorming.</label>
-            <label><input type="radio" name="q7" value="SAEC"> Sticky notes and a playlist for vibes.</label>
-        </div>
-
-        <div class="question">
-            <h2>8. How would you describe your leadership vibe?</h2>
-            <label><input type="radio" name="q8" value="DTRF"> Calculated and strategic.</label>
-            <label><input type="radio" name="q8" value="DTRC"> Bold and no-nonsense.</label>
-            <label><input type="radio" name="q8" value="SARC"> Nurturing and team-first.</label>
-            <label><input type="radio" name="q8" value="SAEC,SARE"> Free-flowing and adaptive.</label>
-        </div>
-
-        <div class="question">
-            <h2>9. Your dream project team…</h2>
-            <label><input type="radio" name="q9" value="DTRF,STRE"> Follows clear roles and routines.</label>
-            <label><input type="radio" name="q9" value="DTRC,DARC"> Moves fast and tackles chaos head-on.</label>
-            <label><input type="radio" name="q9" value="SARC,STRF"> Feels safe to share and collaborate.</label>
-            <label><input type="radio" name="q9" value="SAEC,SARE"> Experiments and pushes boundaries.</label>
-        </div>
-
-        <div class="question">
-            <h2>10. What gets your PM juices flowing?</h2>
-            <label><input type="radio" name="q10" value="DTRF,STRE"> Cracking tough logistical puzzles.</label>
-            <label><input type="radio" name="q10" value="DARC"> Conquering high-stakes deadlines.</label>
-            <label><input type="radio" name="q10" value="SARC"> Seeing team members thrive.</label>
-            <label><input type="radio" name="q10" value="SAEC,SARE"> Exploring bold new ideas.</label>
-        </div>
-
-        <div class="question">
-            <h2>11. How do you bounce back from a project fail?</h2>
-            <label><input type="radio" name="q11" value="DTRF"> Analyze and tweak the system.</label>
-            <label><input type="radio" name="q11" value="DTRC,DARC"> Hit the ground running harder.</label>
-            <label><input type="radio" name="q11" value="SARC"> Support the team and regroup.</label>
-            <label><input type="radio" name="q11" value="SAEC,SARE"> Pivot with a fresh perspective.</label>
-        </div>
-
-        <div class="question">
-            <h2>12. Your work energy in three words:</h2>
-            <label><input type="radio" name="q12" value="DTRF,STRE"> Precise, focused, structured.</label>
-            <label><input type="radio" name="q12" value="DTRC,DARC"> Driven, intense, ambitious.</label>
-            <label><input type="radio" name="q12" value="SARC,STRF"> Warm, steady, empathetic.</label>
-            <label><input type="radio" name="q12" value="SAEC,SARE"> Curious, dynamic, open.</label>
-        </div>
-
-        <div class="question">
-            <h2>13. Which motto fits your PM style?</h2>
-            <label><input type="radio" name="q13" value="DTRF,STRE"> “Order drives results.”</label>
-            <label><input type="radio" name="q13" value="DTRC"> “Action beats hesitation.”</label>
-            <label><input type="radio" name="q13" value="SARC"> “People make projects.”</label>
-            <label><input type="radio" name="q13" value="SAEC,SARE"> “Innovation fuels progress.”</label>
-        </div>
-
-        <div class="question">
-            <h2>14. You’d ditch a gig if…</h2>
-            <label><input type="radio" name="q14" value="DTRF,STRE"> It’s a disorganized mess.</label>
-            <label><input type="radio" name="q14" value="DTRC,DARC"> There’s no challenge or growth.</label>
-            <label><input type="radio" name="q14" value="SARC,STRF"> The vibe is toxic or cold.</label>
-            <label><input type="radio" name="q14" value="SAEC,SARE"> It stifles your creativity.</label>
-        </div>
-
-        <div class="question">
-            <h2>15. Your role in a group project is…</h2>
-            <label><input type="radio" name="q15" value="DTRF"> The master planner.</label>
-            <label><input type="radio" name="q15" value="DARC"> The action driver.</label>
-            <label><input type="radio" name="q15" value="SARC"> The team harmonizer.</label>
-            <label><input type="radio" name="q15" value="SAEC,SARE"> The boundary pusher.</label>
-        </div>
-
-        <div class="question">
-            <h2>16. As a mentee, you’d ask for…</h2>
-            <label><input type="radio" name="q16" value="DTRF,STRE"> A proven system to follow.</label>
-            <label><input type="radio" name="q16" value="DTRC,DARC"> A push to excel under pressure.</label>
-            <label><input type="radio" name="q16" value="SARC,STRF"> Guidance on personal growth.</label>
-            <label><input type="radio" name="q16" value="SAEC,SARE"> Freedom to explore my path.</label>
-        </div>
-
-        <button type="button" onclick="calculateResults()">Submit</button>
-    </form>
-
-    <div id="results">
-        <h2>Your Results</h2>
-        <p id="archetype"></p>
-        <p id="description"></p>
-        <p id="strengths"></p>
-        <p id="gaps"></p>
-        <p id="growthTip"></p>
-        <p id="mentor"></p>
     </div>
 
     <script>
         const archetypes = {
             "DTRF": {
                 name: "The Strategist",
-                description: "Bold. Tactical. Relentless. You're the type who could run a war room *and* a wedding flawlessly. Your plans are bulletproof, your vision is sharp, and nobody misses a deadline on your watch. You excel at creating structured, strategic plans and leading with a clear, decisive vision, making you a boss-level planner and leader.",
-                strengths: "Strategic thinking, tactical execution, structured leadership, reliability in meeting deadlines.",
-                gaps: "Tendency to be overly rigid and controlling, which can alienate team members or stifle creativity.",
-                growthTip: "Loosen your grip. People aren’t Gantt charts. You need to balance your structured approach with flexibility and consider the human element more.",
+                description: "Bold. Tactical. Relentless. You’re the mastermind who could orchestrate a war room or a wedding with equal precision. Your plans are airtight, your vision is laser-focused, and deadlines bow to your will. You thrive on structure and strategy, making you a powerhouse planner and leader.",
+                strengths: "Strategic thinking, tactical execution, structured leadership, deadline reliability.",
+                gaps: "Can be overly rigid or controlling, potentially stifling creativity or team morale.",
+                growthTip: "Loosen up a bit—people aren’t Gantt charts. Blend your structure with flexibility and empathy.",
                 mentor: "The Facilitator (SARC)",
-                mentorRationale: "The Facilitator can help you soften your edges and teach you team empathy, balancing your focus on processes with better interpersonal skills."
+                mentorRationale: "Helps soften your edges and teaches you to prioritize team dynamics."
             },
             "SARC": {
                 name: "The Facilitator",
-                description: "Chill. Kind. Chaos Whisperer. You’re the heart of the team — emotionally intelligent, collaborative, and calm under pressure. You don’t *manage*, you *empower*. Your strength lies in coaching and enabling others, creating a supportive environment even in chaotic situations.",
-                strengths: "Emotional intelligence, collaboration, calmness under pressure, ability to empower teams.",
-                gaps: "Lack of focus on timelines and structure, which can lead to missed deadlines or disorganized projects.",
-                growthTip: "Deadlines exist. Use a calendar once in a while, Picasso. You need to incorporate more structured planning to ensure projects stay on track.",
+                description: "Chill. Kind. Chaos Whisperer. You’re the heartbeat of any team—emotionally intelligent, collaborative, and unruffled under pressure. You don’t just manage; you empower, fostering a supportive vibe even in the wildest storms.",
+                strengths: "Emotional intelligence, collaboration, calmness, team empowerment.",
+                gaps: "May neglect timelines or structure, risking disorganization or missed goals.",
+                growthTip: "Deadlines aren’t optional. Add some structure—try a calendar, maestro!",
                 mentor: "The Strategist (DTRF)",
-                mentorRationale: "The Strategist provides the necessary structure, sharpens your planning skills, and helps ground your collaborative approach with defined frameworks."
+                mentorRationale: "Brings planning rigor to ground your collaborative spirit."
             },
             "DARC": {
                 name: "The Firefighter",
-                description: "Fast. Fearless. Frenzied. You were *born* for launch week. You jump into problems headfirst and *love* solving messes. You run toward the fire with a to-do list, thriving in high-pressure, chaotic situations where quick action is needed.",
-                strengths: "Crisis management, fast thinking, ruthlessness in prioritization, ability to thrive in urgency.",
-                gaps: "Lack of structure and prevention strategies, which can lead to recurring issues or burnout.",
-                growthTip: "Don’t be allergic to process. Prevent the fires too, ok? You should develop proactive planning skills to complement your reactive strengths.",
+                description: "Fast. Fearless. Frenzied. You’re built for the chaos of launch week, diving into problems with a to-do list in hand. You love putting out fires and thrive in high-stakes, urgent scenarios.",
+                strengths: "Crisis management, quick thinking, ruthless prioritization, urgency mastery.",
+                gaps: "Weak on prevention and structure, which can lead to burnout or recurring crises.",
+                growthTip: "Prevent fires, don’t just fight them. Build some proactive habits.",
                 mentor: "The Guardian (STRF)",
-                mentorRationale: "The Guardian teaches planning, consistency, and breathing room, helping you prevent fires instead of just fighting them."
+                mentorRationale: "Teaches consistency and planning to balance your reactivity."
             },
             "STRF": {
                 name: "The Guardian",
-                description: "Safe. Solid. Reliable. You’re the insurance policy every chaotic team needs. Structured, risk-aware, predictable, and trusted by execs, you protect the scope and plan for every possible risk, ensuring stability and consistency.",
-                strengths: "Reliability, risk awareness, predictability, trust from stakeholders, strong documentation and planning.",
-                gaps: "Over-caution can stifle innovation or adaptability; difficulty letting go of control.",
-                growthTip: "Risk isn’t evil. Learn to play a little. You need to embrace some level of flexibility and risk-taking to avoid becoming too rigid.",
+                description: "Safe. Solid. Reliable. You’re the team’s safety net—structured, risk-aware, and trusted by all. You shield the scope and anticipate every hiccup, ensuring stability and predictability.",
+                strengths: "Reliability, risk management, stakeholder trust, strong planning.",
+                gaps: "Over-caution can hinder innovation or adaptability; control can be hard to release.",
+                growthTip: "Take a calculated risk now and then—step out of the safety zone.",
                 mentor: "The Visionary (SARE)",
-                mentorRationale: "The Visionary inspires you to break rules, think bigger, and take calculated risks, pushing you out of your comfort zone."
+                mentorRationale: "Pushes you to dream bigger and embrace bold moves."
             },
             "STRE": {
                 name: "The Bureaucrat",
-                description: "Methodical. Traditional. Detailed. You’ve got process for the process. Spreadsheets bow before you. Stability is your comfort zone. You are a classic old-school PM, excelling at traditional methodologies like Waterfall, with a focus on efficiency and order.",
-                strengths: "Methodical planning, detail orientation, process efficiency, stability.",
-                gaps: "Resistance to modern, agile approaches and lack of creativity or adaptability in fast-changing environments.",
-                growthTip: "The world has changed. Stop trying to Waterfall Slack. You need to embrace newer methodologies and fresh thinking to stay relevant.",
+                description: "Methodical. Traditional. Detailed. You’re the king of process—spreadsheets tremble in your presence. You thrive in stability, excelling with classic PM methods like Waterfall.",
+                strengths: "Methodical planning, detail focus, process efficiency, stability.",
+                gaps: "Resistance to agile methods or creativity can leave you stuck in the past.",
+                growthTip: "Modernize a bit—Slack isn’t for Waterfall. Embrace adaptability.",
                 mentor: "The Free Spirit (SAEC)",
-                mentorRationale: "The Free Spirit brings spontaneity, creativity, and experimentation, encouraging you to adapt and modernize."
+                mentorRationale: "Injects creativity and spontaneity into your toolkit."
             },
             "SAEC": {
                 name: "The Free Spirit",
-                description: "Creative. Spontaneous. Team Favorite. You’re the sunshine in the storm. Fast to adapt, open to everything, human-first always. You bring creativity and energy to projects but may lack structure or follow-through.",
-                strengths: "Creativity, adaptability, team morale boosting, openness to new ideas, human-centered approach.",
-                gaps: "Lack of structure, poor follow-through, and difficulty with detailed execution or deadlines.",
-                growthTip: "Not everything is vibes. Learn to land planes, not just take off. You need to develop planning and execution skills to complement your creative energy.",
+                description: "Creative. Spontaneous. Team Favorite. You’re the ray of sunshine in any storm—adaptable, open, and always human-first. You spark energy and ideas but may struggle with structure.",
+                strengths: "Creativity, adaptability, team morale, openness, human focus.",
+                gaps: "Poor follow-through and structure can derail execution or deadlines.",
+                growthTip: "Land the plane, not just take off. Add some discipline to your brilliance.",
                 mentor: "The Commander (DTRC)",
-                mentorRationale: "The Commander brings hard truth, execution focus, and decisive action, providing the discipline you need to land your ideas."
+                mentorRationale: "Offers execution focus and decisiveness to ground you."
             },
             "DTRC": {
                 name: "The Commander",
-                description: "Decisive. Efficient. Results-Obsessed. You don’t waste time — you *own* it. You cut through noise, move fast, and make it happen with a casual yet authoritative style. Your focus is on results and efficiency.",
-                strengths: "Decisiveness, efficiency, results orientation, leadership confidence, speed in action.",
-                gaps: "Lack of empathy, which can alienate team members or overlook emotional dynamics.",
-                growthTip: "Empathy isn’t a blocker. People are part of the product. You need to balance your drive for results with a more empathetic approach to leadership.",
+                description: "Decisive. Efficient. Results-Obsessed. You own time, cutting through noise with speed and authority. You’re all about results, delivered with a cool, commanding vibe.",
+                strengths: "Decisiveness, efficiency, results focus, confident leadership.",
+                gaps: "Lack of empathy can disconnect you from your team’s needs.",
+                growthTip: "People matter too—blend empathy into your results-driven style.",
                 mentor: "The Facilitator (SARC)",
-                mentorRationale: "The Facilitator reminds you that people matter, teaching emotional intelligence and softer leadership skills."
+                mentorRationale: "Teaches softer skills to balance your edge."
             },
             "SARE": {
                 name: "The Visionary",
-                description: "Dreamy. Inspiring. Big-Picture-Thinker. You light fires in people. You dream big, pitch hard, and see the forest even if the trees are burning. Your strength is in inspiring others with big ideas, but you often lack detail or execution focus.",
-                strengths: "Inspiration, big-picture thinking, storytelling, values alignment, ability to motivate.",
-                gaps: "Lack of detail orientation, poor execution skills, and difficulty turning ideas into actionable plans.",
-                growthTip: "Execution matters. Learn to get stuff done, not just imagined. You need support and skills to bridge the gap between vision and reality.",
+                description: "Dreamy. Inspiring. Big-Picture-Thinker. You ignite passion in others, dreaming big and pitching bold ideas. You see the forest while the trees burn, though details aren’t your forte.",
+                strengths: "Inspiration, vision, storytelling, team motivation.",
+                gaps: "Weak on execution and details, leaving ideas unrealized.",
+                growthTip: "Turn dreams into plans—execution is your next frontier.",
                 mentor: "The Firefighter (DARC)",
-                mentorRationale: "The Firefighter teaches ruthless action and fast thinking, helping you turn your dreams into reality."
+                mentorRationale: "Brings fast action to make your visions real."
             }
         };
 
