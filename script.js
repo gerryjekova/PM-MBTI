@@ -137,11 +137,91 @@ const archetypes = {
             }
         });
 
-        // Form submission (client-side placeholder)
-        document.getElementById("userSubmissionForm").addEventListener("submit", (e) => {
-            e.preventDefault();
-            alert("Form submitted! (Configure server-side endpoint for actual data storage)");
-            // Example: Send data to Google Forms or Sheets via API (requires setup)
+            document.getElementById("archetype").textContent = `Your Archetype: ${archetypes[dominant].name}`;
+            document.getElementById("description").textContent = `Description: ${archetypes[dominant].description}`;
+            document.getElementById("strengths").textContent = `Strengths: ${archetypes[dominant].strengths}`;
+            document.getElementById("gaps").textContent = `Gaps: ${archetypes[dominant].gaps}`;
+            document.getElementById("growthTip").textContent = `Growth Tip: ${archetypes[dominant].growthTip}`;
+            document.getElementById("mentor").textContent = `Recommended Mentor: ${archetypes[dominant].mentor} - ${archetypes[dominant].mentorRationale}`;
+            
+            // Update hidden form fields with all the results details
+            document.getElementById("userArchetype").value = archetypes[dominant].name;
+            document.getElementById("userDescription").value = archetypes[dominant].description;
+            document.getElementById("userStrengths").value = archetypes[dominant].strengths;
+            document.getElementById("userGaps").value = archetypes[dominant].gaps;
+            document.getElementById("userGrowthTip").value = archetypes[dominant].growthTip;
+            document.getElementById("userMentor").value = `${archetypes[dominant].mentor} - ${archetypes[dominant].mentorRationale}`;
+
+               // Form submission handling
+            document.getElementById("userSubmissionForm").addEventListener("submit", (e) => {
+            // Let Pageclip handle the actual submission
+            // No need to preventDefault() as Pageclip will handle that
+            
+            // Show a "Sending..." message by changing the button text
+            const submitButton = document.querySelector('.pageclip-form__submit span');
+            const originalText = submitButton.textContent;
+            submitButton.textContent = "Sending...";
+            
+            // After submission is complete (successful or not)
+            document.addEventListener('pageclip-form-success', function() {
+                // Create success message
+                const successMsg = document.createElement('div');
+                successMsg.className = 'pageclip-form__success';
+                successMsg.textContent = 'Thanks! Your results have been saved. Check your email soon for a copy!';
+                
+                // Insert after the form
+                const form = document.getElementById('userSubmissionForm');
+                form.parentNode.insertBefore(successMsg, form.nextSibling);
+                
+                // Reset button text
+                submitButton.textContent = originalText;
+                
+                // Disable the form to prevent multiple submissions
+                Array.from(form.elements).forEach(element => {
+                    element.disabled = true;
+                });
+            });
         });
 
-        
+        // Check your Pageclip initialization code
+// It should look something like this:
+const pageclip = new Pageclip('VafGLms8Q2it3UZm1NR6EVVISuDUKXgC', {
+  // Options 
+  submitCallback: data => {
+    console.log('Submission worked!', data);
+  },
+  errorCallback: err => {
+    console.error('Submission error:', err);
+  }
+});
+
+// Add this to your page to get more information
+document.addEventListener('DOMContentLoaded', function() {
+  // Find the form
+  const form = document.querySelector('form.pageclip-form');
+  
+  // Add manual submission handling
+  if (form) {
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      console.log('Form submitted, data:', new FormData(form));
+      
+      // Try manual XHR to see if it works
+      const xhr = new XMLHttpRequest();
+      xhr.open('POST', 'https://send.pageclip.co/YOUR_SITE_KEY/' + form.getAttribute('name'), true);
+      
+      xhr.onload = function() {
+        console.log('XHR response:', xhr.status, xhr.responseText);
+      };
+      
+      xhr.onerror = function() {
+        console.error('XHR error:', xhr);
+      };
+      
+      xhr.send(new FormData(form));
+    });
+  } else {
+    console.error('Pageclip form not found');
+  }
+});

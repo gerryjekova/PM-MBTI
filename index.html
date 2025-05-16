@@ -6,6 +6,7 @@
     <title>Project Manager Personality Quiz</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://s.pageclip.co/v1/pageclip.css" media="screen">
 </head>
 <body>
     <div class="container">
@@ -17,7 +18,7 @@
             <p class="intro">Discover your personality archetype based on PM!</p>
         </header>
 
-        <form id="quizForm">
+        <form id="quizForm" action="https://send.pageclip.co/VafGLms8Q2it3UZm1NR6EVVISuDUKXgC" class="pageclip-form" method="post">
             <div class="question">
                 <h2>1. When starting a project, what’s your instinctive first move?</h2>
                 <label><input type="radio" name="q1" value="DTRF,STRE"> Sketch the milestones, build the roadmap.</label>
@@ -160,22 +161,28 @@
             <p id="gaps"></p>
             <p id="growthTip"></p>
             <p id="mentor"></p>
-              <form id="userSubmissionForm" action="https://send.pageclip.co/VafGLms8Q2it3UZm1NR6EVVISuDUKXgC" class="pageclip-form" method="post">
+            <!-- form -->
+            <form id="userSubmissionForm" action="https://send.pageclip.co/VafGLms8Q2it3UZm1NR6EVVISuDUKXgC/pm-match" class="pageclip-form" method="POST">
                 <h3>Save Your Results</h3>
                 <label type="question" for="userName">Name:</label>
-                  <input type="text" id="userName" name="name" placeholder="tvoita mama">
+                  <input type="text" id="userName" name="name" placeholder="Your name">
                 <label type="question" for="userEmail">Email:</label>
-                 <input type="email" name="email" placeholder="peshomaimunski@example.com" id="userEmail" required>
+                 <input type="email" name="email" placeholder="your@email.com" id="userEmail" required>
+                <!-- Hidden fields to store results -->
                 <input type="hidden" id="userArchetype" name="archetype">
-                <button type="submit">Submit</button>
-  <!-- Replace these inputs with your own. Make sure they have a "name" attribute! -->
-  <!-- This button will have a loading spinner. Keep the inner span for best results. -->
+                <input type="hidden" id="userDescription" name="description">
+                <input type="hidden" id="userStrengths" name="strengths">
+                <input type="hidden" id="userGaps" name="gaps">
+                <input type="hidden" id="userGrowthTip" name="growthTip">
+                <input type="hidden" id="userMentor" name="mentor">
+                <!-- Submit button -->
                 <button type="submit" class="pageclip-form__submit">
-                  <span>Send</span>
+                  <span>Send My Results</span>
                 </button>
                 </form>
         </div>
     </div>
     <script src="script.js"></script>
+     <script src="https://s.pageclip.co/v1/pageclip.js" charset="utf-8"></script>
 </body>
 </html>
