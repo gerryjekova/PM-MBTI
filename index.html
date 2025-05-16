@@ -1,0 +1,305 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PM Personality Quiz</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        h1, h2 {
+            color: #333;
+        }
+        .question {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        label {
+            display: block;
+            margin: 10px 0;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #results {
+            margin-top: 20px;
+            padding: 15px;
+            background: #e9ecef;
+            border-radius: 8px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Project Manager Personality Quiz</h1>
+    <p>Answer the 16 questions below to find your PM archetype and mentor match!</p>
+
+    <form id="quizForm">
+        <div class="question">
+            <h2>1. When launching a project, what’s your first instinct?</h2>
+            <label><input type="radio" name="q1" value="DTRF,STRE"> Map out every milestone and deadline.</label>
+            <label><input type="radio" name="q1" value="DTRC,DARC"> Rally the team and set clear roles fast.</label>
+            <label><input type="radio" name="q1" value="SARC,SARE"> Brainstorm the vision with the team.</label>
+            <label><input type="radio" name="q1" value="SAEC"> Sketch a loose plan and dive into action.</label>
+        </div>
+
+        <div class="question">
+            <h2>2. How do you handle a chaotic team environment?</h2>
+            <label><input type="radio" name="q2" value="DTRF,STRE"> Impose order with processes and rules.</label>
+            <label><input type="radio" name="q2" value="DTRC"> Take charge and delegate decisively.</label>
+            <label><input type="radio" name="q2" value="SAEC"> Adapt and find creative workarounds.</label>
+            <label><input type="radio" name="q2" value="SARC"> Check in emotionally to realign everyone.</label>
+        </div>
+
+        <div class="question">
+            <h2>3. A team member misses a deadline. Your response?</h2>
+            <label><input type="radio" name="q3" value="DTRF"> Optimize their workflow with a new plan.</label>
+            <label><input type="radio" name="q3" value="DTRC,DARC"> Push them to catch up, no excuses.</label>
+            <label><input type="radio" name="q3" value="SARC,STRF"> Ask what’s wrong and adjust priorities.</label>
+            <label><input type="radio" name="q3" value="SAEC"> Encourage a fresh approach based on their vibe.</label>
+        </div>
+
+        <div class="question">
+            <h2>4. What’s your take on meetings?</h2>
+            <label><input type="radio" name="q4" value="DTRF,STRE"> Essential for alignment, but keep them tight.</label>
+            <label><input type="radio" name="q4" value="SARC,SARE"> A stage to inspire and connect.</label>
+            <label><input type="radio" name="q4" value="DTRC"> A quick huddle to execute fast.</label>
+            <label><input type="radio" name="q4" value="SAEC"> A chance to spark ideas, even if it’s messy.</label>
+        </div>
+
+        <div class="question">
+            <h2>5. Under pressure, what’s your superpower?</h2>
+            <label><input type="radio" name="q5" value="DTRF,STRE"> Keeping everything on track, no matter what.</label>
+            <label><input type="radio" name="q5" value="DARC"> Turning chaos into action instantly.</label>
+            <label><input type="radio" name="q5" value="SARC,STRF"> Staying calm and uplifting the team.</label>
+            <label><input type="radio" name="q5" value="SAEC,SARE"> Finding creative solutions on the fly.</label>
+        </div>
+
+        <div class="question">
+            <h2>6. What’s your kryptonite as a PM?</h2>
+            <label><input type="radio" name="q6" value="DTRF,STRE"> Overplanning and missing the human side.</label>
+            <label><input type="radio" name="q6" value="DTRC,DARC"> Pushing too hard and burning out others.</label>
+            <label><input type="radio" name="q6" value="SARC"> Taking on too much emotional baggage.</label>
+            <label><input type="radio" name="q6" value="SAEC,SARE"> Struggling to stick to a plan.</label>
+        </div>
+
+        <div class="question">
+            <h2>7. Your go-to project tool is…</h2>
+            <label><input type="radio" name="q7" value="DTRF,STRE"> A detailed Gantt chart or task board.</label>
+            <label><input type="radio" name="q7" value="DTRC,DARC"> A quick chat app for fast updates.</label>
+            <label><input type="radio" name="q7" value="SARC,SARE"> A whiteboard for team brainstorming.</label>
+            <label><input type="radio" name="q7" value="SAEC"> Sticky notes and a playlist for vibes.</label>
+        </div>
+
+        <div class="question">
+            <h2>8. How would you describe your leadership vibe?</h2>
+            <label><input type="radio" name="q8" value="DTRF"> Calculated and strategic.</label>
+            <label><input type="radio" name="q8" value="DTRC"> Bold and no-nonsense.</label>
+            <label><input type="radio" name="q8" value="SARC"> Nurturing and team-first.</label>
+            <label><input type="radio" name="q8" value="SAEC,SARE"> Free-flowing and adaptive.</label>
+        </div>
+
+        <div class="question">
+            <h2>9. Your dream project team…</h2>
+            <label><input type="radio" name="q9" value="DTRF,STRE"> Follows clear roles and routines.</label>
+            <label><input type="radio" name="q9" value="DTRC,DARC"> Moves fast and tackles chaos head-on.</label>
+            <label><input type="radio" name="q9" value="SARC,STRF"> Feels safe to share and collaborate.</label>
+            <label><input type="radio" name="q9" value="SAEC,SARE"> Experiments and pushes boundaries.</label>
+        </div>
+
+        <div class="question">
+            <h2>10. What gets your PM juices flowing?</h2>
+            <label><input type="radio" name="q10" value="DTRF,STRE"> Cracking tough logistical puzzles.</label>
+            <label><input type="radio" name="q10" value="DARC"> Conquering high-stakes deadlines.</label>
+            <label><input type="radio" name="q10" value="SARC"> Seeing team members thrive.</label>
+            <label><input type="radio" name="q10" value="SAEC,SARE"> Exploring bold new ideas.</label>
+        </div>
+
+        <div class="question">
+            <h2>11. How do you bounce back from a project fail?</h2>
+            <label><input type="radio" name="q11" value="DTRF"> Analyze and tweak the system.</label>
+            <label><input type="radio" name="q11" value="DTRC,DARC"> Hit the ground running harder.</label>
+            <label><input type="radio" name="q11" value="SARC"> Support the team and regroup.</label>
+            <label><input type="radio" name="q11" value="SAEC,SARE"> Pivot with a fresh perspective.</label>
+        </div>
+
+        <div class="question">
+            <h2>12. Your work energy in three words:</h2>
+            <label><input type="radio" name="q12" value="DTRF,STRE"> Precise, focused, structured.</label>
+            <label><input type="radio" name="q12" value="DTRC,DARC"> Driven, intense, ambitious.</label>
+            <label><input type="radio" name="q12" value="SARC,STRF"> Warm, steady, empathetic.</label>
+            <label><input type="radio" name="q12" value="SAEC,SARE"> Curious, dynamic, open.</label>
+        </div>
+
+        <div class="question">
+            <h2>13. Which motto fits your PM style?</h2>
+            <label><input type="radio" name="q13" value="DTRF,STRE"> “Order drives results.”</label>
+            <label><input type="radio" name="q13" value="DTRC"> “Action beats hesitation.”</label>
+            <label><input type="radio" name="q13" value="SARC"> “People make projects.”</label>
+            <label><input type="radio" name="q13" value="SAEC,SARE"> “Innovation fuels progress.”</label>
+        </div>
+
+        <div class="question">
+            <h2>14. You’d ditch a gig if…</h2>
+            <label><input type="radio" name="q14" value="DTRF,STRE"> It’s a disorganized mess.</label>
+            <label><input type="radio" name="q14" value="DTRC,DARC"> There’s no challenge or growth.</label>
+            <label><input type="radio" name="q14" value="SARC,STRF"> The vibe is toxic or cold.</label>
+            <label><input type="radio" name="q14" value="SAEC,SARE"> It stifles your creativity.</label>
+        </div>
+
+        <div class="question">
+            <h2>15. Your role in a group project is…</h2>
+            <label><input type="radio" name="q15" value="DTRF"> The master planner.</label>
+            <label><input type="radio" name="q15" value="DARC"> The action driver.</label>
+            <label><input type="radio" name="q15" value="SARC"> The team harmonizer.</label>
+            <label><input type="radio" name="q15" value="SAEC,SARE"> The boundary pusher.</label>
+        </div>
+
+        <div class="question">
+            <h2>16. As a mentee, you’d ask for…</h2>
+            <label><input type="radio" name="q16" value="DTRF,STRE"> A proven system to follow.</label>
+            <label><input type="radio" name="q16" value="DTRC,DARC"> A push to excel under pressure.</label>
+            <label><input type="radio" name="q16" value="SARC,STRF"> Guidance on personal growth.</label>
+            <label><input type="radio" name="q16" value="SAEC,SARE"> Freedom to explore my path.</label>
+        </div>
+
+        <button type="button" onclick="calculateResults()">Submit</button>
+    </form>
+
+    <div id="results">
+        <h2>Your Results</h2>
+        <p id="archetype"></p>
+        <p id="description"></p>
+        <p id="mentor"></p>
+    </div>
+
+    <script>
+        const archetypes = {
+            "DTRF": {
+                name: "The Strategist",
+                description: "A meticulous planner with a commanding presence. You live for timelines, scope control, and structured leadership. Chaos fears you.",
+                mentor: "Free Spirit (SAEC)",
+                mentorRationale: "Adds structure to creativity, helping you loosen up and adapt."
+            },
+            "SARC": {
+                name: "The Facilitator",
+                description: "The team’s emotional glue. You empower others, resolve conflicts, and thrive in collaborative chaos with a laid-back vibe.",
+                mentor: "Commander (DTRC)",
+                mentorRationale: "Teaches empathy to a decisive leader, balancing your nurturing style."
+            },
+            "DARC": {
+                name: "The Firefighter",
+                description: "Born for crises, you dive into chaos with gusto. Quick decisions and bold actions define your casual, high-energy leadership.",
+                mentor: "Guardian (STRF)",
+                mentorRationale: "Pushes planning over reaction, encouraging proactive habits."
+            },
+            "STRF": {
+                name: "The Guardian",
+                description: "The steady rock of any team. You protect scope, mitigate risks, and communicate formally to ensure stability.",
+                mentor: "Visionary (SARE)",
+                mentorRationale: "Grounds big ideas with process, fostering adaptability."
+            },
+            "STRE": {
+                name: "The Bureaucrat",
+                description: "A process maestro. You optimize workflows, enforce structure, and stick to traditional methods with formal flair.",
+                mentor: "Free Spirit (SAEC)",
+                mentorRationale: "Imposes rigor but may clash; brings modern experimentation."
+            },
+            "SAEC": {
+                name: "The Free Spirit",
+                description: "A creative whirlwind. You adapt effortlessly, inspire with ideas, and lead with a casual, fun vibe.",
+                mentor: "Strategist (DTRF)",
+                mentorRationale: "Brings flexibility to rigid planning, anchoring your creativity."
+            },
+            "DTRC": {
+                name: "The Commander",
+                description: "A results-driven force. You lead decisively, cut through noise, and communicate casually to keep things moving.",
+                mentor: "Facilitator (SARC)",
+                mentorRationale: "Adds execution to emotional focus, enhancing team connection."
+            },
+            "SARE": {
+                name: "The Visionary",
+                description: "A big-picture dreamer. You inspire with bold ideas and support your team, though details aren’t your forte.",
+                mentor: "Bureaucrat (STRE)",
+                mentorRationale: "Teaches execution, grounding your vision in practicality."
+            }
+        };
+
+        function calculateResults() {
+            const form = document.getElementById("quizForm");
+            const answers = Array.from(form.querySelectorAll("input[type='radio']:checked")).map(input => input.value.split(","));
+
+            // Flatten and count archetype occurrences
+            const score = {};
+            answers.flat().forEach(archetype => {
+                score[archetype] = (score[archetype] || 0) + 1;
+            });
+
+            // Determine dominant archetype
+            const dominant = Object.keys(score).reduce((a, b) => score[a] > score[b] ? a : b);
+
+            // Display results
+            const resultDiv = document.getElementById("results");
+            resultDiv.style.display = "block";
+            document.getElementById("archetype").textContent = `Your Archetype: ${archetypes[dominant].name}`;
+            document.getElementById("description").textContent = `Description: ${archetypes[dominant].description}`;
+            document.getElementById("mentor").textContent = `Recommended Mentor: ${archetypes[dominant].mentor} - ${archetypes[dominant].mentorRationale}`;
+        }
+    </script>
+</body>
+</html>
