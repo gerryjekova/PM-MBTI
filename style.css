@@ -43,7 +43,7 @@ header {
     background: linear-gradient(90deg, #46e9ff, #f6ffc3, pink, rgb(159, 255, 103), rgb(185, 165, 255), rgba(253, 214, 141, 0.712), rgba(255, 55, 132, 0.637));
     height: 100%;
     transition: width 0.3s ease;
-    border: 1px solid;
+    border-color: transparent;
     width: 0%
 }
 
@@ -118,7 +118,7 @@ form {
 .question:hover {
     transform: translateY(-8px);
     box-shadow: 0 12px 30px rgba(30, 136, 229, 0.4), 0 0 20px rgba(255, 82, 82, 0.3);
-    border-color: #02ffd5;
+    border-color: #48ffd7;
 }
 
 .question h2 {
@@ -126,6 +126,7 @@ form {
     font-weight: 700;
     color: #1c51ff;
     margin-bottom: 15px;
+    animation: pulseText 3s ease-in-out infinite;
 }
 
 label {
@@ -154,9 +155,10 @@ input[type="radio"] {
     margin-right: 12px;
     width: 20px;
     height: 20px;
-    accent-color: #ff80d5;
+    accent-color: #0059ff;
     animation: pulseRadio 1.5s ease-in-out infinite;
     border-width: solid 1px;
+    content:orange;
 }
 
 button {
@@ -330,6 +332,12 @@ button:hover {
     0%, 100% { text-shadow: 0 0 15px rgba(30, 136, 229, 0.6), 0 0 25px rgba(255, 82, 82, 0.4); }
     50% { text-shadow: 0 0 25px rgba(30, 136, 229, 0.8), 0 0 35px rgba(255, 82, 82, 0.6); }
 }
+
+@keyframes pulseText {
+    0%, 100% { color:  #6200ff ; }
+    50% { color:  #506aff ;}
+}
+
 
 @keyframes pulseRadio {
     0%, 100% { transform: scale(1); }
