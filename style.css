@@ -6,8 +6,8 @@
 
 body {
     font-family: 'Montserrat', sans-serif;
-    background: linear-gradient(135deg, #FFD7C4 0%, #FAF3E0 100%);
-    color: #263238;
+    background: linear-gradient(135deg, #4b30c2 0%, #4e14d4 100%);
+    color: #fffeb4;
     line-height: 1.6;
     padding: 30px;
     min-height: 100vh;
@@ -31,7 +31,7 @@ header {
     top: 0;
     left: 0;
     width: 100%;
-    background: #E0E0E0;
+    background: #ff0000;
     height: 10px;
     border-radius: 0 0 5px 5px;
     overflow: hidden;
@@ -40,54 +40,56 @@ header {
 }
 
 #progress {
-    background: linear-gradient(90deg, #1E88E5, #FF5252);
+    background: linear-gradient(90deg, #46e9ff, #f6ffc3, pink, rgb(159, 255, 103), rgb(185, 165, 255), rgba(253, 214, 141, 0.712), rgba(255, 55, 132, 0.637));
     height: 100%;
     transition: width 0.3s ease;
+    border: 1px solid;
+    width: 0%
 }
 
 h1.glow {
     font-size: 3rem;
     font-weight: 700;
-    background: linear-gradient(45deg, #1E88E5, #FF5252);
+    text-decoration: dotted;
+    background: linear-gradient(45deg, #e7feff, #fffefc);
     -webkit-background-clip: text;
     background-clip: text;
-    color: transparent;
-    text-shadow: 0 0 15px rgba(30, 136, 229, 0.6);
+    text-shadow: 0 0 20px #2a008d;
     transition: transform 0.3s ease, text-shadow 0.3s ease;
 }
 
 h1.glow:hover {
     transform: scale(1.05);
-    text-shadow: 0 0 25px rgba(30, 136, 229, 0.8), 0 0 35px rgba(255, 82, 82, 0.6);
+    text-shadow:  rgba(4, 7, 148, 0.945) 10px 15px 20px;
 }
 
 .intro {
     font-size: 1.3rem;
-    color: #37474F;
+    color: #ebe0ff;
     max-width: 700px;
+     text-shadow: 0 0 20px #000000;
     margin: 15px auto;
-    font-weight: 300;
+    font-weight: 500;
     overflow: hidden;
     white-space: nowrap;
-    animation: typing 4s steps(40, end) infinite;
+    animation: typing 6s steps(40, end) infinite;
 }
 
 form {
-    background: #FAF3E0;
+    background:  linear-gradient(90deg,  #422b81, rgb(54, 55, 143), rgb(71, 47, 160));
     padding: 40px;
-    border-radius: 20px;
-    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2), 0 0 30px rgba(30, 136, 229, 0.3);
+    border-radius: 0px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2), 0 0 30px rgba(0, 0, 0, 0.3);
     border: 3px solid transparent;
-    border-image: linear-gradient(45deg, #1E88E5, #FF5252) 1;
+    border-image: linear-gradient(45deg, #6dbbff, hsl(0, 96%, 82%)) 1;
     animation: pulseBorder 3s ease-in-out infinite;
 }
 
 .question {
-    background: #FFD7C4;
+    background: #ffd6cb;
     padding: 25px;
     margin-bottom: 25px;
-    border-radius: 15px;
-    border: 2px solid #1E88E5;
+    border: 6px solid #5adeff;
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
     opacity: 0;
     transform: translateY(20px);
@@ -116,13 +118,13 @@ form {
 .question:hover {
     transform: translateY(-8px);
     box-shadow: 0 12px 30px rgba(30, 136, 229, 0.4), 0 0 20px rgba(255, 82, 82, 0.3);
-    border-color: #FF5252;
+    border-color: #02ffd5;
 }
 
 .question h2 {
     font-size: 1.5rem;
-    font-weight: 500;
-    color: #263238;
+    font-weight: 700;
+    color: #1c51ff;
     margin-bottom: 15px;
 }
 
@@ -134,32 +136,39 @@ label {
     margin: 12px 0;
     padding: 12px;
     border-radius: 10px;
+    border-color:  rgb(57, 0, 133);
+    border-style: double;
     transition: background 0.2s ease, transform 0.2s ease;
     cursor: pointer;
+    background-color: #78d4ff;
 }
 
 label:hover {
-    background: rgba(30, 136, 229, 0.1);
+    background: rgba(200, 255, 0, 0.719);
     transform: scale(1.02);
+    border-width: 1px solid);
+    border-style: double;
 }
 
 input[type="radio"] {
     margin-right: 12px;
     width: 20px;
     height: 20px;
-    accent-color: #1E88E5;
+    accent-color: #ff80d5;
     animation: pulseRadio 1.5s ease-in-out infinite;
+    border-width: solid 1px;
 }
 
 button {
     display: block;
     margin: 40px auto 0;
     padding: 15px 50px;
-    background: linear-gradient(45deg, #1E88E5, #FF5252);
-    color: #FAF3E0;
+    background: linear-gradient(45deg, #ffdf4f, #b0ff6f);
+    color: #0059ff;
     font-size: 1.3rem;
     font-weight: 700;
-    border: none;
+   border-style: double;
+   border-color: rgb(30, 0, 70);
     border-radius: 50px;
     cursor: pointer;
     box-shadow: 0 8px 20px rgba(30, 136, 229, 0.5);
@@ -215,7 +224,7 @@ button:hover {
     overflow-y: auto;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3), 0 0 20px rgba(30, 136, 229, 0.4);
     border: 3px solid transparent;
-    border-image: linear-gradient(45deg, #1E88E5, #FF5252) 1;
+    border-image: linear-gradient(45deg, #1ee581, #33cfff) 1;
     text-align: center;
     position: relative;
     animation: scaleIn 0.5s ease;
@@ -297,7 +306,7 @@ button:hover {
     width: 100%;
     padding: 10px;
     margin-bottom: 12px;
-    border: 2px solid #1E88E5;
+    border: 2px solid #0dffcb;
     border-radius: 6px;
     font-size: 1rem;
     background: #FAF3E0;
@@ -306,12 +315,12 @@ button:hover {
 
 #userSubmissionForm input[type="text"]:focus,
 #userSubmissionForm input[type="email"]:focus {
-    border-color: #FF5252;
-    box-shadow: 0 0 10px rgba(255, 82, 82, 0.3);
+    border-color: #ff52a8;
+    box-shadow: 0 0 10px rgba(206, 82, 255, 0.3);
     outline: none;
 }
 
-#userSubmissionForm button {
+#userSubmissionForm button[type="submit"] {
     margin: 15px auto 0;
     padding: 10px 25px;
     font-size: 1.1rem;
@@ -338,8 +347,8 @@ button:hover {
 }
 
 @keyframes pulseBorder {
-    0%, 100% { border-image: linear-gradient(45deg, #1E88E5, #FF5252) 1; }
-    50% { border-image: linear-gradient(45deg, #FF5252, #1E88E5) 1; }
+    0%, 100% { border-image: linear-gradient(45deg, #00ffaa, #f717ff) 1; }
+    50% { border-image: linear-gradient(45deg, #ee70ff, #eaff8a) 1; }
 }
 
 @keyframes scaleIn {

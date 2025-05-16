@@ -11,7 +11,7 @@
     <div class="container">
         <header>
             <div class="progress-bar">
-                <div id="progress" style="width: 0%;"></div>
+                <div id="progress"></div>
             </div>
             <h1 class="glow">Project Manager Personality Quiz</h1>
             <p class="intro">Unleash your PM superpower and find your mentor match!</p>
@@ -145,8 +145,7 @@
                 <label><input type="radio" name="q16" value="SARC,STRF"> Guidance on personal growth.</label>
                 <label><input type="radio" name="q16" value="SAEC,SARE"> Freedom to explore my path.</label>
             </div>
-
-            <button type="button" onclick="calculateResults()">Submit</button>
+             <button type="submit" onclick="calculateResults()">Submit</button>
         </form>
     </div>
 
@@ -161,15 +160,20 @@
             <p id="gaps"></p>
             <p id="growthTip"></p>
             <p id="mentor"></p>
-            <form id="userSubmissionForm" action="https://your-google-form-endpoint" method="POST">
+              <form id="userSubmissionForm" action="https://send.pageclip.co/VafGLms8Q2it3UZm1NR6EVVISuDUKXgC" class="pageclip-form" method="post">
                 <h3>Save Your Results</h3>
                 <label for="userName">Name:</label>
-                <input type="text" id="userName" name="name" required>
+                  <input type="text" id="userName" name="name" value="tvoita mama">
                 <label for="userEmail">Email:</label>
-                <input type="email" id="userEmail" name="email" required>
+                 <input type="email" name="email" value="peshomaimunski@example.com" id="userEmail" required>
                 <input type="hidden" id="userArchetype" name="archetype">
                 <button type="submit">Submit</button>
-            </form>
+  <!-- Replace these inputs with your own. Make sure they have a "name" attribute! -->
+  <!-- This button will have a loading spinner. Keep the inner span for best results. -->
+                <button type="submit" class="pageclip-form__submit">
+                  <span>Send</span>
+                </button>
+                </form>
         </div>
     </div>
 
@@ -319,6 +323,8 @@
             alert("Form submitted! (Configure server-side endpoint for actual data storage)");
             // Example: Send data to Google Forms or Sheets via API (requires setup)
         });
+
+        
     </script>
 </body>
 </html>
